@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
+import com.example.weteams.scene.signin.SignInActivity
 import com.example.weteams.ui.theme.WeTeamsTheme
 
 class MainActivity : AppCompatActivity() {

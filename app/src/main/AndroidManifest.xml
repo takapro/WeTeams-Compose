@@ -18,7 +18,7 @@
         </activity>
 
         <activity
-            android:name=".SignInActivity"
+            android:name=".scene.signin.SignInActivity"
             android:windowSoftInputMode="adjustResize" />
 
     </application>
