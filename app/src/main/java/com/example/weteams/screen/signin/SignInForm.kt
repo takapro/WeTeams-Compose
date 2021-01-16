@@ -1,4 +1,4 @@
-package com.example.weteams.scene.signin
+package com.example.weteams.screen.signin
 
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background

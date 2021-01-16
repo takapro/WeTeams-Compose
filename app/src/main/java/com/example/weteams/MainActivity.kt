@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.example.weteams.scene.signin.SignInActivity
+import com.example.weteams.screen.signin.SignInActivity
 import com.example.weteams.ui.theme.WeTeamsTheme
 import com.google.firebase.auth.FirebaseAuth
 
