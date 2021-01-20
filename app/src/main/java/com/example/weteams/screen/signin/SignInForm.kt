@@ -48,10 +48,8 @@ fun SignInForm(viewModel: SignInViewModel) {
 
             Text(
                 text = "WeTeam",
-                style = TextStyle(
-                    color = MaterialTheme.colors.primarySurface,
-                    fontSize = TextUnit.Companion.Sp(48)
-                )
+                color = MaterialTheme.colors.primarySurface,
+                fontSize = TextUnit.Sp(48)
             )
 
             Spacer(modifier = Modifier.height(16.dp))

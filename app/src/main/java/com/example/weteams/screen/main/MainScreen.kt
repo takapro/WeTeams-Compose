@@ -26,7 +26,7 @@ fun MainScreen(viewModel: MainViewModel) {
         modifier = Modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = { TopBar(scaffoldState) },
-        drawerContent = { DrawerContent() }
+        drawerContent = { DrawerContent(viewModel) }
     ) {
         MainContent(
             name = viewModel.user.value?.displayName ?: "unknown",

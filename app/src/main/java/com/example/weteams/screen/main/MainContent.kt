@@ -10,7 +10,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 
@@ -23,7 +22,7 @@ fun MainContent(name: String, onSignOut: () -> Unit) {
     ) {
         Text(
             text = "Hello, $name!",
-            style = TextStyle(fontSize = TextUnit.Companion.Sp(24))
+            fontSize = TextUnit.Sp(24)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
