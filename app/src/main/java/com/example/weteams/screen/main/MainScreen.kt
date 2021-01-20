@@ -17,7 +17,7 @@ import androidx.compose.ui.res.vectorResource
 import com.example.weteams.R
 
 @Composable
-fun MainScreen(name: String, onSignOut: () -> Unit) {
+fun MainScreen(viewModel: MainViewModel) {
     val scaffoldState = rememberScaffoldState(
         drawerState = rememberDrawerState(DrawerValue.Closed)
     )
@@ -28,7 +28,10 @@ fun MainScreen(name: String, onSignOut: () -> Unit) {
         topBar = { TopBar(scaffoldState) },
         drawerContent = { DrawerContent() }
     ) {
-        MainContent(name = name, onSignOut = onSignOut)
+        MainContent(
+            name = viewModel.user.value?.displayName ?: "unknown",
+            onSignOut = viewModel::signOut
+        )
     }
 }
 
