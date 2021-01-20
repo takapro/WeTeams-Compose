@@ -1,6 +1,5 @@
-package com.example.weteams.screen.main
+package com.example.weteams.screen.common
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
@@ -13,24 +12,33 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
+import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.example.weteams.R
+import com.example.weteams.screen.main.MainViewModel
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun DrawerContent(viewModel: MainViewModel) {
+fun DrawerContent(scaffoldState: ScaffoldState, viewModel: MainViewModel) {
     val user = viewModel.user.value
     if (user == null) {
         return
     }
+
+    val currentScreen by viewModel.currentScreen.observeAsState(Screen.PROJECTS)
+    val currentProject by viewModel.currentProject.observeAsState()
 
     ScrollableColumn {
         DrawerHeader(user)
@@ -38,15 +46,21 @@ fun DrawerContent(viewModel: MainViewModel) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            DrawerGroup(isTop = true)
-            DrawerItem(R.drawable.ic_projects_black_24dp, "Project")
-            DrawerGroup(text = "No Project")
-            DrawerItem(R.drawable.ic_dashboard_black_24dp, "Dashboard")
-            DrawerItem(R.drawable.ic_schedule_black_24dp, "Schedule")
-            DrawerItem(R.drawable.ic_files_black_24dp, "Files")
-            DrawerItem(R.drawable.ic_chat_black_24dp, "Chat")
-            DrawerGroup()
-            DrawerItem(R.drawable.ic_settings_black_24dp, "Settings")
+            getScreenGroups(currentProject).forEachIndexed { index, screenGroup ->
+                DrawerGroup(isTop = index == 0, text = screenGroup.title)
+                for (screen in screenGroup.screens) {
+                    DrawerItem(
+                        screen = screen,
+                        enabled = screenGroup.enabled,
+                        selected = screen == currentScreen
+                    ) {
+                        viewModel.currentScreen.value = screen
+                        viewModel.currentProject.value =
+                            if (screen != Screen.SETTINGS) "My Great Project" else null
+                        scaffoldState.drawerState.close()
+                    }
+                }
+            }
         }
     }
 }
@@ -107,22 +121,40 @@ fun DrawerGroup(isTop: Boolean = false, text: String? = null) {
 }
 
 @Composable
-fun DrawerItem(@DrawableRes imageRes: Int, text: String) {
+fun DrawerItem(screen: Screen, enabled: Boolean, selected: Boolean, onSelect: () -> Unit) {
+    val color =
+        if (selected) {
+            MaterialTheme.colors.primary
+        } else if (enabled) {
+            contentColorFor(MaterialTheme.colors.background)
+        } else {
+            Color.Gray
+        }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(48.dp)
-            .clickable {
-                // TODO
+            .let {
+                if (enabled) {
+                    it.clickable { onSelect() }
+                } else {
+                    it
+                }
             }
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            imageVector = vectorResource(imageRes),
-            modifier = Modifier.padding(start = 8.dp, end = 16.dp)
+            imageVector = vectorResource(screen.imageRes),
+            modifier = Modifier.padding(start = 8.dp, end = 16.dp),
+            colorFilter = ColorFilter.tint(color)
         )
 
-        Text(text = text, fontWeight = FontWeight.Bold)
+        Text(
+            text = screen.text,
+            color = color,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
