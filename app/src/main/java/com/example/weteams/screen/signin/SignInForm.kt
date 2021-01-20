@@ -1,4 +1,4 @@
-package com.example.weteams.scene.signin
+package com.example.weteams.screen.signin
 
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
@@ -18,13 +18,11 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.contentColorFor
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.TextUnit
@@ -48,10 +46,8 @@ fun SignInForm(viewModel: SignInViewModel) {
 
             Text(
                 text = "WeTeam",
-                style = TextStyle(
-                    color = MaterialTheme.colors.primarySurface,
-                    fontSize = TextUnit.Companion.Sp(48)
-                )
+                color = MaterialTheme.colors.primary,
+                fontSize = TextUnit.Sp(48)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -60,7 +56,7 @@ fun SignInForm(viewModel: SignInViewModel) {
                 selectedTabIndex = if (signIn.value) 0 else 1,
                 modifier = Modifier.width(240.dp),
                 backgroundColor = MaterialTheme.colors.background,
-                contentColor = MaterialTheme.colors.primarySurface
+                contentColor = MaterialTheme.colors.primary
             ) {
                 Tab(
                     selected = signIn.value,
