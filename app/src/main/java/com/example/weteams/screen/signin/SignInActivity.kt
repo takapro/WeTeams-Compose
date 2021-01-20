@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.platform.setContent
-import com.example.weteams.MainActivity
+import com.example.weteams.screen.main.MainActivity
 import com.example.weteams.ui.theme.WeTeamsTheme
 
 class SignInActivity : AppCompatActivity() {
