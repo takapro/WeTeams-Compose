@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
+import androidx.compose.material.DrawerState
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
@@ -26,18 +26,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.navigate
 import com.example.weteams.R
 import com.example.weteams.screen.main.MainViewModel
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
-fun DrawerContent(scaffoldState: ScaffoldState, viewModel: MainViewModel) {
+fun DrawerContent(drawerState: DrawerState, navController: NavHostController) {
+    val viewModel = viewModel<MainViewModel>()
     val user = viewModel.user.value
     if (user == null) {
         return
     }
 
-    val currentScreen by viewModel.currentScreen.observeAsState(Screen.PROJECTS)
     val currentProject by viewModel.currentProject.observeAsState()
 
     ScrollableColumn {
@@ -52,12 +55,12 @@ fun DrawerContent(scaffoldState: ScaffoldState, viewModel: MainViewModel) {
                     DrawerItem(
                         screen = screen,
                         enabled = screenGroup.enabled,
-                        selected = screen == currentScreen
+                        selected = false // TODO: screen == currentScreen
                     ) {
-                        viewModel.currentScreen.value = screen
+                        navController.navigate(screen.toString())
                         viewModel.currentProject.value =
                             if (screen != Screen.SETTINGS) "My Great Project" else null
-                        scaffoldState.drawerState.close()
+                        drawerState.close()
                     }
                 }
             }
@@ -147,14 +150,14 @@ fun DrawerItem(screen: Screen, enabled: Boolean, selected: Boolean, onSelect: ()
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(screen.imageRes),
+            painter = painterResource(screen.iconRes),
             contentDescription = "",
             modifier = Modifier.padding(start = 8.dp, end = 16.dp),
             colorFilter = ColorFilter.tint(color)
         )
 
         Text(
-            text = screen.text,
+            text = screen.title,
             color = color,
             fontWeight = FontWeight.Bold
         )

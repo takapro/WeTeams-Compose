@@ -23,32 +23,29 @@ data class ScreenGroup(
     val screens: Array<Screen>,
 )
 
-enum class Screen {
-    PROJECTS {
-        override val text = "Projects"
-        override val imageRes = R.drawable.ic_projects_black_24dp
-    },
-    DASHBOARD {
-        override val text = "Dashboard"
-        override val imageRes = R.drawable.ic_projects_black_24dp
-    },
-    SCHEDULE {
-        override val text = "Schedule"
-        override val imageRes = R.drawable.ic_projects_black_24dp
-    },
-    FILES {
-        override val text = "Files"
-        override val imageRes = R.drawable.ic_projects_black_24dp
-    },
-    CHAT {
-        override val text = "Chat"
-        override val imageRes = R.drawable.ic_projects_black_24dp
-    },
-    SETTINGS {
-        override val text = "Settings"
-        override val imageRes = R.drawable.ic_projects_black_24dp
-    };
-
-    abstract val text: String
-    abstract val imageRes: Int
+enum class Screen(val title: String, val iconRes: Int) {
+    PROJECTS(
+        title = "Projects",
+        iconRes = R.drawable.ic_projects_black_24dp
+    ),
+    DASHBOARD(
+        title = "Dashboard",
+        iconRes = R.drawable.ic_projects_black_24dp
+    ),
+    SCHEDULE(
+        title = "Schedule",
+        iconRes = R.drawable.ic_projects_black_24dp
+    ),
+    FILES(
+        title = "Files",
+        iconRes = R.drawable.ic_projects_black_24dp
+    ),
+    CHAT(
+        title = "Chat",
+        iconRes = R.drawable.ic_projects_black_24dp
+    ),
+    SETTINGS(
+        title = "Settings",
+        iconRes = R.drawable.ic_projects_black_24dp
+    );
 }
