@@ -29,7 +29,7 @@ import com.example.weteams.screen.schedule.ScheduleContent
 import com.example.weteams.screen.settings.SettingsContent
 
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun MainScreen() {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
@@ -56,7 +56,7 @@ fun MainScreen(viewModel: MainViewModel) {
             route(Screen.SCHEDULE) { ScheduleContent() }
             route(Screen.FILES) { FilesContent() }
             route(Screen.CHAT) { ChatContent() }
-            route(Screen.SETTINGS) { SettingsContent(viewModel::signOut) }
+            route(Screen.SETTINGS) { SettingsContent() }
         }
     }
 }

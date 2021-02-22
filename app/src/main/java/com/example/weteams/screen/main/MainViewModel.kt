@@ -11,8 +11,6 @@ class MainViewModel : ViewModel(), FirebaseAuth.AuthStateListener {
     val user: LiveData<FirebaseUser?>
         get() = _user
 
-    val currentProject = MutableLiveData<String?>()
-
     init {
         val auth = FirebaseAuth.getInstance()
         _user = MutableLiveData(auth.currentUser)

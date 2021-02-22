@@ -12,22 +12,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.weteams.screen.main.MainViewModel
 
 @Composable
-fun SettingsContent(signOut: () -> Unit) {
+fun SettingsContent() {
+    val mainViewModel = viewModel<MainViewModel>()
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Settings Content!",
+            text = "Settings Content",
             fontSize = 24.sp
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = signOut) {
+        Button(onClick = mainViewModel::signOut) {
             Text(text = "Sign Out")
         }
     }

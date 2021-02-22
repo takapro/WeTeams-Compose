@@ -31,17 +31,19 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.example.weteams.R
 import com.example.weteams.screen.main.MainViewModel
+import com.example.weteams.screen.projects.ProjectsViewModel
 import com.google.firebase.auth.FirebaseUser
 
 @Composable
 fun DrawerContent(drawerState: DrawerState, navController: NavHostController) {
-    val viewModel = viewModel<MainViewModel>()
-    val user = viewModel.user.value
+    val mainViewModel = viewModel<MainViewModel>()
+    val user = mainViewModel.user.value
     if (user == null) {
         return
     }
 
-    val currentProject by viewModel.currentProject.observeAsState()
+    val projectsViewModel = viewModel<ProjectsViewModel>()
+    val currentProject by projectsViewModel.currentProject.observeAsState()
 
     ScrollableColumn {
         DrawerHeader(user)
@@ -58,7 +60,7 @@ fun DrawerContent(drawerState: DrawerState, navController: NavHostController) {
                         selected = false // TODO: screen == currentScreen
                     ) {
                         navController.navigate(screen.toString())
-                        viewModel.currentProject.value =
+                        projectsViewModel.currentProject.value =
                             if (screen != Screen.SETTINGS) "My Great Project" else null
                         drawerState.close()
                     }
