@@ -22,10 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.weteams.R
 import com.example.weteams.screen.main.MainViewModel
 import com.google.firebase.auth.FirebaseUser
@@ -74,13 +74,14 @@ fun DrawerHeader(user: FirebaseUser) {
             .padding(16.dp)
     ) {
         Image(
-            imageVector = vectorResource(R.drawable.ic_launcher_foreground)
+            painter = painterResource(R.drawable.ic_launcher_foreground),
+            contentDescription = ""
         )
 
         Text(
             text = user.displayName ?: "unknown",
             color = MaterialTheme.colors.background,
-            fontSize = TextUnit.Sp(20)
+            fontSize = 20.sp
         )
 
         Text(
@@ -146,7 +147,8 @@ fun DrawerItem(screen: Screen, enabled: Boolean, selected: Boolean, onSelect: ()
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            imageVector = vectorResource(screen.imageRes),
+            painter = painterResource(screen.imageRes),
+            contentDescription = "",
             modifier = Modifier.padding(start = 8.dp, end = 16.dp),
             colorFilter = ColorFilter.tint(color)
         )

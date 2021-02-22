@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import com.example.weteams.R
 import com.example.weteams.screen.chat.ChatContent
 import com.example.weteams.screen.common.DrawerContent
@@ -56,7 +56,10 @@ fun TopBar(scaffoldState: ScaffoldState, title: String) {
         title = { Text(text = title) },
         navigationIcon = {
             IconButton(onClick = { scaffoldState.drawerState.open() }) {
-                Icon(vectorResource(R.drawable.ic_menu_white_24dp))
+                Icon(
+                    painter = painterResource(R.drawable.ic_menu_white_24dp),
+                    contentDescription = ""
+                )
             }
         }
     )

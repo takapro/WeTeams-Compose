@@ -10,8 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun SettingsContent(signOut: () -> Unit) {
@@ -22,7 +22,7 @@ fun SettingsContent(signOut: () -> Unit) {
     ) {
         Text(
             text = "Settings Content!",
-            fontSize = TextUnit.Sp(24)
+            fontSize = 24.sp
         )
 
         Spacer(modifier = Modifier.height(16.dp))

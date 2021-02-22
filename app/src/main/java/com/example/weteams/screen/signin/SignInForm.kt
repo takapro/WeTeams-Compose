@@ -20,21 +20,22 @@ import androidx.compose.material.TextField
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.savedinstancestate.savedInstanceState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun SignInForm(viewModel: SignInViewModel) {
-    val signIn = savedInstanceState { true }
-    val displayName = savedInstanceState { "" }
-    val email = savedInstanceState { "" }
-    val password = savedInstanceState { "" }
-    val confirmPassword = savedInstanceState { "" }
+    val signIn = rememberSaveable { mutableStateOf(true) }
+    val displayName = rememberSaveable { mutableStateOf("") }
+    val email = rememberSaveable { mutableStateOf("") }
+    val password = rememberSaveable { mutableStateOf("") }
+    val confirmPassword = rememberSaveable { mutableStateOf("") }
     val isProcessing = viewModel.isProcessing.observeAsState(false)
 
     Box {
@@ -47,7 +48,7 @@ fun SignInForm(viewModel: SignInViewModel) {
             Text(
                 text = "WeTeam",
                 color = MaterialTheme.colors.primary,
-                fontSize = TextUnit.Sp(48)
+                fontSize = 48.sp
             )
 
             Spacer(modifier = Modifier.height(16.dp))
