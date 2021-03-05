@@ -11,12 +11,12 @@ import com.example.weteams.screen.signin.SignInActivity
 import com.example.weteams.ui.theme.WeTeamsTheme
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel by viewModels<MainViewModel>()
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.user.observe(this) {
+        mainViewModel.user.observe(this) {
             if (it == null) {
                 startSignInActivity()
             }
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             WeTeamsTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    MainScreen(viewModel)
+                    MainScreen()
                 }
             }
         }
