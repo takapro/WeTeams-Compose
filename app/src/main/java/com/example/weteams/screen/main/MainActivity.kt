@@ -2,11 +2,11 @@ package com.example.weteams.screen.main
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.ui.platform.setContent
 import com.example.weteams.screen.signin.SignInActivity
 import com.example.weteams.ui.theme.WeTeamsTheme
 

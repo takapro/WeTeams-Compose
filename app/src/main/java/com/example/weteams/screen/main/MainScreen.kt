@@ -1,17 +1,15 @@
 package com.example.weteams.screen.main
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.DrawerState
-import androidx.compose.material.DrawerValue
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.ModalDrawerLayout
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.rememberDrawerState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -27,11 +25,12 @@ import com.example.weteams.screen.files.FilesContent
 import com.example.weteams.screen.projects.ProjectsContent
 import com.example.weteams.screen.schedule.ScheduleContent
 import com.example.weteams.screen.settings.SettingsContent
+import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scaffoldState = rememberScaffoldState()
 
     fun NavGraphBuilder.route(
         screen: Screen,
@@ -39,16 +38,15 @@ fun MainScreen() {
     ) {
         composable(screen.toString()) {
             Column {
-                TopBar(drawerState, screen.title)
+                TopBar(scaffoldState.drawerState, screen.title)
                 content(it)
             }
         }
     }
 
-    ModalDrawerLayout(
-        modifier = Modifier.fillMaxSize(),
-        drawerState = drawerState,
-        drawerContent = { DrawerContent(drawerState, navController) }
+    Scaffold(
+        scaffoldState = scaffoldState,
+        drawerContent = { DrawerContent(scaffoldState.drawerState, navController) }
     ) {
         NavHost(navController, startDestination = Screen.PROJECTS.toString()) {
             route(Screen.PROJECTS) { ProjectsContent() }
@@ -63,10 +61,17 @@ fun MainScreen() {
 
 @Composable
 fun TopBar(drawerState: DrawerState, title: String) {
+    val coroutineScope = rememberCoroutineScope()
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
-            IconButton(onClick = { drawerState.open() }) {
+            IconButton(
+                onClick = {
+                    coroutineScope.launch {
+                        drawerState.open()
+                    }
+                }
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_menu_white_24dp),
                     contentDescription = ""

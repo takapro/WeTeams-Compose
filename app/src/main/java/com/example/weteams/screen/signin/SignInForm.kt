@@ -1,15 +1,17 @@
 package com.example.weteams.screen.signin
 
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -17,6 +19,7 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -39,8 +42,10 @@ fun SignInForm(viewModel: SignInViewModel) {
     val isProcessing = viewModel.isProcessing.observeAsState(false)
 
     Box {
-        ScrollableColumn(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+        Column(
+            modifier = Modifier
+                .fillMaxWidth().padding(16.dp)
+                .verticalScroll(state = rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -79,7 +84,9 @@ fun SignInForm(viewModel: SignInViewModel) {
                     onValueChange = { displayName.value = it },
                     label = { Text("Username") },
                     singleLine = true,
-                    backgroundColor = MaterialTheme.colors.background
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = MaterialTheme.colors.background
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -90,7 +97,9 @@ fun SignInForm(viewModel: SignInViewModel) {
                 onValueChange = { email.value = it },
                 label = { Text("E-mail") },
                 singleLine = true,
-                backgroundColor = MaterialTheme.colors.background
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = MaterialTheme.colors.background
+                )
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -102,7 +111,9 @@ fun SignInForm(viewModel: SignInViewModel) {
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 singleLine = true,
-                backgroundColor = MaterialTheme.colors.background
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = MaterialTheme.colors.background
+                )
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -115,7 +126,9 @@ fun SignInForm(viewModel: SignInViewModel) {
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     singleLine = true,
-                    backgroundColor = MaterialTheme.colors.background
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = MaterialTheme.colors.background
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))

@@ -1,7 +1,6 @@
 package com.example.weteams.screen.common
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -10,6 +9,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.DrawerState
 import androidx.compose.material.MaterialTheme
@@ -18,6 +19,7 @@ import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +35,7 @@ import com.example.weteams.R
 import com.example.weteams.screen.main.MainViewModel
 import com.example.weteams.screen.projects.ProjectsViewModel
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.launch
 
 @Composable
 fun DrawerContent(drawerState: DrawerState, navController: NavHostController) {
@@ -45,7 +48,10 @@ fun DrawerContent(drawerState: DrawerState, navController: NavHostController) {
     val projectsViewModel = viewModel<ProjectsViewModel>()
     val currentProject by projectsViewModel.currentProject.observeAsState()
 
-    ScrollableColumn {
+    val coroutineScope = rememberCoroutineScope()
+    Column(
+        modifier = Modifier.verticalScroll(state = rememberScrollState())
+    ) {
         DrawerHeader(user)
 
         Column(
@@ -62,7 +68,9 @@ fun DrawerContent(drawerState: DrawerState, navController: NavHostController) {
                         navController.navigate(screen.toString())
                         projectsViewModel.currentProject.value =
                             if (screen != Screen.SETTINGS) "My Great Project" else null
-                        drawerState.close()
+                        coroutineScope.launch {
+                            drawerState.close()
+                        }
                     }
                 }
             }
