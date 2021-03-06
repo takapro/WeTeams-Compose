@@ -64,8 +64,8 @@ fun MainScreen() {
             route(Route.FILES) { FilesContent() }
             route(Route.CHAT) { ChatContent() }
             route(Route.SETTINGS) { SettingsContent(navController) }
-            subroute(SubRoute.SETTINGS_USERNAME) { SettingsUsernameContent() }
-            subroute(SubRoute.SETTINGS_PASSWORD) { SettingsPasswordContent() }
+            subroute(SubRoute.SETTINGS_USERNAME) { SettingsUsernameContent(navController) }
+            subroute(SubRoute.SETTINGS_PASSWORD) { SettingsPasswordContent(navController) }
         }
     }
 }

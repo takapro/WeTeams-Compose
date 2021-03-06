@@ -1,5 +1,7 @@
 package com.example.weteams.screen.settings
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weteams.repository.AuthRepository
@@ -11,14 +13,12 @@ class SettingsViewModel : ViewModel() {
 
     val user = FirebaseAuth.getInstance().currentUser
 
-    private var isProcessing = false
+    private val _isProcessing = MutableLiveData(false)
+    val isProcessing: LiveData<Boolean>
+        get() = _isProcessing
 
     fun changeUsername(username: String, onSuccess: () -> Unit) {
-        if (isProcessing || username != "") {
-            return
-        }
-
-        isProcessing = true
+        _isProcessing.value = true
 
         viewModelScope.launch {
             try {
@@ -27,26 +27,22 @@ class SettingsViewModel : ViewModel() {
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                isProcessing = false
+                _isProcessing.value = false
             }
         }
     }
 
-    fun changePassword(current: String, password: String, confirm: String, onSuccess: () -> Unit) {
-        if (isProcessing || current != "" || password != "" || password != confirm) {
-            return
-        }
-
-        isProcessing = true
+    fun changePassword(currentPassword: String, newPassword: String, onSuccess: () -> Unit) {
+        _isProcessing.value = true
 
         viewModelScope.launch {
             try {
-                authRepository.updatePassword(user, current, password)
+                authRepository.updatePassword(user, currentPassword, newPassword)
                 onSuccess()
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                isProcessing = false
+                _isProcessing.value = false
             }
         }
     }

@@ -36,10 +36,10 @@ class AuthRepository {
         db.collection("users").document(user.uid).set(profile).await()
     }
 
-    suspend fun updatePassword(user: FirebaseUser, currentPassword: String, password: String) {
+    suspend fun updatePassword(user: FirebaseUser, currentPassword: String, newPassword: String) {
         val credential = EmailAuthProvider.getCredential(user.email!!, currentPassword)
         user.reauthenticate(credential).await()
 
-        user.updatePassword(password).await()
+        user.updatePassword(newPassword).await()
     }
 }

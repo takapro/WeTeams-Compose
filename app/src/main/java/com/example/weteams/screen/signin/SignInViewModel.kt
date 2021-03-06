@@ -25,7 +25,7 @@ class SignInViewModel : ViewModel() {
 
     fun canSignIn(
         signIn: Boolean,
-        displayName: String,
+        username: String,
         email: String,
         password: String,
         confirmPassword: String
@@ -33,7 +33,7 @@ class SignInViewModel : ViewModel() {
         return if (signIn) {
             email != "" && password != ""
         } else {
-            displayName != "" && email != "" && password != "" && confirmPassword == password
+            username != "" && email != "" && password != "" && confirmPassword == password
         }
     }
 
@@ -55,12 +55,12 @@ class SignInViewModel : ViewModel() {
         }
     }
 
-    fun signUp(displayName: String, email: String, password: String) {
+    fun signUp(username: String, email: String, password: String) {
         _isProcessing.value = true
 
         viewModelScope.launch {
             try {
-                _isSuccessful.value = authRepository.signUp(email, password, displayName)
+                _isSuccessful.value = authRepository.signUp(email, password, username)
             } catch (e: Exception) {
                 e.printStackTrace()
                 errorMessage.value = when (e) {
