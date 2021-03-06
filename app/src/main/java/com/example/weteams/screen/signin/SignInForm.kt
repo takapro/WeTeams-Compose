@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
@@ -18,8 +17,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -27,10 +24,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.weteams.screen.common.InputField
+import com.example.weteams.screen.common.PasswordField
 
 @Composable
 fun SignInForm(viewModel: SignInViewModel) {
@@ -79,57 +76,21 @@ fun SignInForm(viewModel: SignInViewModel) {
             Spacer(modifier = Modifier.height(8.dp))
 
             if (!signIn.value) {
-                TextField(
-                    value = displayName.value,
-                    onValueChange = { displayName.value = it },
-                    label = { Text("Username") },
-                    singleLine = true,
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = MaterialTheme.colors.background
-                    )
-                )
+                InputField("Username", displayName)
 
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
-            TextField(
-                value = email.value,
-                onValueChange = { email.value = it },
-                label = { Text("E-mail") },
-                singleLine = true,
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = MaterialTheme.colors.background
-                )
-            )
+            InputField("E-mail", email)
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            TextField(
-                value = password.value,
-                onValueChange = { password.value = it },
-                label = { Text("Password") },
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                singleLine = true,
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = MaterialTheme.colors.background
-                )
-            )
+            PasswordField("Password", password)
 
             Spacer(modifier = Modifier.height(8.dp))
 
             if (!signIn.value) {
-                TextField(
-                    value = confirmPassword.value,
-                    onValueChange = { confirmPassword.value = it },
-                    label = { Text("Confirm Password") },
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    singleLine = true,
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = MaterialTheme.colors.background
-                    )
-                )
+                PasswordField("Confirm Password", confirmPassword)
 
                 Spacer(modifier = Modifier.height(8.dp))
             }
