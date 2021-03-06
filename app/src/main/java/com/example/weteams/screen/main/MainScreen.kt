@@ -1,31 +1,27 @@
 package com.example.weteams.screen.main
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.DrawerState
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.weteams.R
+import com.example.weteams.screen.Route
+import com.example.weteams.screen.SubRoute
 import com.example.weteams.screen.chat.ChatContent
-import com.example.weteams.screen.common.DrawerContent
-import com.example.weteams.screen.common.Screen
 import com.example.weteams.screen.dashboard.DashboardContent
 import com.example.weteams.screen.files.FilesContent
 import com.example.weteams.screen.projects.ProjectsContent
 import com.example.weteams.screen.schedule.ScheduleContent
 import com.example.weteams.screen.settings.SettingsContent
-import kotlinx.coroutines.launch
+import com.example.weteams.screen.settings.SettingsPasswordContent
+import com.example.weteams.screen.settings.SettingsUsernameContent
+import com.example.weteams.ui.common.DrawerContent
+import com.example.weteams.ui.common.PrimaryBar
+import com.example.weteams.ui.common.SecondaryBar
 
 @Composable
 fun MainScreen() {
@@ -33,12 +29,24 @@ fun MainScreen() {
     val scaffoldState = rememberScaffoldState()
 
     fun NavGraphBuilder.route(
-        screen: Screen,
+        route: Route,
         content: @Composable (NavBackStackEntry) -> Unit
     ) {
-        composable(screen.toString()) {
+        composable(route.toString()) {
             Column {
-                TopBar(scaffoldState.drawerState, screen.title)
+                PrimaryBar(scaffoldState.drawerState, route.title)
+                content(it)
+            }
+        }
+    }
+
+    fun NavGraphBuilder.subroute(
+        subroute: SubRoute,
+        content: @Composable (NavBackStackEntry) -> Unit
+    ) {
+        composable(subroute.toString()) {
+            Column {
+                SecondaryBar(navController, subroute.title)
                 content(it)
             }
         }
@@ -46,37 +54,18 @@ fun MainScreen() {
 
     Scaffold(
         scaffoldState = scaffoldState,
-        drawerContent = { DrawerContent(scaffoldState.drawerState, navController) }
+        drawerContent = { DrawerContent(scaffoldState.drawerState, navController) },
+        drawerGesturesEnabled = false
     ) {
-        NavHost(navController, startDestination = Screen.PROJECTS.toString()) {
-            route(Screen.PROJECTS) { ProjectsContent() }
-            route(Screen.DASHBOARD) { DashboardContent() }
-            route(Screen.SCHEDULE) { ScheduleContent() }
-            route(Screen.FILES) { FilesContent() }
-            route(Screen.CHAT) { ChatContent() }
-            route(Screen.SETTINGS) { SettingsContent() }
+        NavHost(navController, startDestination = Route.PROJECTS.toString()) {
+            route(Route.PROJECTS) { ProjectsContent() }
+            route(Route.DASHBOARD) { DashboardContent() }
+            route(Route.SCHEDULE) { ScheduleContent() }
+            route(Route.FILES) { FilesContent() }
+            route(Route.CHAT) { ChatContent() }
+            route(Route.SETTINGS) { SettingsContent(navController) }
+            subroute(SubRoute.SETTINGS_USERNAME) { SettingsUsernameContent(navController) }
+            subroute(SubRoute.SETTINGS_PASSWORD) { SettingsPasswordContent(navController) }
         }
     }
-}
-
-@Composable
-fun TopBar(drawerState: DrawerState, title: String) {
-    val coroutineScope = rememberCoroutineScope()
-    TopAppBar(
-        title = { Text(text = title) },
-        navigationIcon = {
-            IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        drawerState.open()
-                    }
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_menu_white_24dp),
-                    contentDescription = ""
-                )
-            }
-        }
-    )
 }

@@ -4,16 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
+import com.example.weteams.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 class SignInViewModel : ViewModel() {
+    private val authRepository = AuthRepository()
+
     private val _isProcessing = MutableLiveData(false)
     val isProcessing: LiveData<Boolean>
         get() = _isProcessing
@@ -26,7 +25,7 @@ class SignInViewModel : ViewModel() {
 
     fun canSignIn(
         signIn: Boolean,
-        displayName: String,
+        username: String,
         email: String,
         password: String,
         confirmPassword: String
@@ -34,7 +33,7 @@ class SignInViewModel : ViewModel() {
         return if (signIn) {
             email != "" && password != ""
         } else {
-            displayName != "" && email != "" && password != "" && confirmPassword == password
+            username != "" && email != "" && password != "" && confirmPassword == password
         }
     }
 
@@ -43,9 +42,7 @@ class SignInViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val auth = FirebaseAuth.getInstance()
-                val result = auth.signInWithEmailAndPassword(email, password).await()
-                _isSuccessful.value = result.user != null
+                _isSuccessful.value = authRepository.signIn(email, password)
             } catch (e: Exception) {
                 e.printStackTrace()
                 errorMessage.value = when (e) {
@@ -58,26 +55,12 @@ class SignInViewModel : ViewModel() {
         }
     }
 
-    fun signUp(displayName: String, email: String, password: String) {
+    fun signUp(username: String, email: String, password: String) {
         _isProcessing.value = true
 
         viewModelScope.launch {
             try {
-                val auth = FirebaseAuth.getInstance()
-                val result = auth.createUserWithEmailAndPassword(email, password).await()
-
-                result.user?.also { user ->
-                    val request = UserProfileChangeRequest.Builder()
-                        .setDisplayName(displayName)
-                        .build()
-                    user.updateProfile(request).await()
-
-                    val db = FirebaseFirestore.getInstance()
-                    val profile = mapOf("email" to email, "displayName" to displayName)
-                    db.collection("users").document(user.uid).set(profile).await()
-
-                    _isSuccessful.value = true
-                }
+                _isSuccessful.value = authRepository.signUp(email, password, username)
             } catch (e: Exception) {
                 e.printStackTrace()
                 errorMessage.value = when (e) {
