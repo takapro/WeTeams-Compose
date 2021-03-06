@@ -17,10 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import com.example.weteams.screen.SubRoute
+import com.example.weteams.screen.navRoute
 import com.example.weteams.ui.common.CustomDialog
 
 @Composable
-fun SettingsContent() {
+fun SettingsContent(navController: NavHostController) {
     val settingsViewModel = viewModel<SettingsViewModel>()
     val user = settingsViewModel.user
 
@@ -28,8 +31,8 @@ fun SettingsContent() {
 
     val itemList = arrayOf(
         Pair(user?.email ?: "no email", null),
-        Pair("Change Username", null),
-        Pair("Change Password", null),
+        Pair("Change Username", { navController.navRoute(SubRoute.SETTINGS_USERNAME) }),
+        Pair("Change Password", { navController.navRoute(SubRoute.SETTINGS_PASSWORD) }),
         Pair("Sign Out", { showSignOutDialog.value = true }),
     )
 

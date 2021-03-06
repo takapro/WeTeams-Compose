@@ -30,11 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.navigate
 import com.example.weteams.R
 import com.example.weteams.screen.Route
 import com.example.weteams.screen.getRouteGroups
 import com.example.weteams.screen.main.MainViewModel
+import com.example.weteams.screen.navRoute
 import com.example.weteams.screen.projects.ProjectsViewModel
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
@@ -67,7 +67,7 @@ fun DrawerContent(drawerState: DrawerState, navController: NavHostController) {
                         enabled = routeGroup.enabled,
                         selected = false // TODO: route == currentRoute
                     ) {
-                        navController.navigate(route.toString())
+                        navController.navRoute(route)
                         projectsViewModel.currentProject.value =
                             if (route != Route.SETTINGS) "My Great Project" else null
                         coroutineScope.launch {
