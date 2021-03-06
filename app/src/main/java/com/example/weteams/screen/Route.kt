@@ -1,29 +1,29 @@
-package com.example.weteams.screen.common
+package com.example.weteams.screen
 
 import com.example.weteams.R
 
-fun getScreenGroups(currentProject: String?) =
+fun getRouteGroups(currentProject: String?) =
     arrayOf(
-        ScreenGroup(
-            screens = arrayOf(Screen.PROJECTS)
+        RouteGroup(
+            routes = arrayOf(Route.PROJECTS)
         ),
-        ScreenGroup(
+        RouteGroup(
             title = currentProject ?: "No Projects",
             enabled = currentProject != null,
-            screens = arrayOf(Screen.DASHBOARD, Screen.SCHEDULE, Screen.FILES, Screen.CHAT)
+            routes = arrayOf(Route.DASHBOARD, Route.SCHEDULE, Route.FILES, Route.CHAT)
         ),
-        ScreenGroup(
-            screens = arrayOf(Screen.SETTINGS)
+        RouteGroup(
+            routes = arrayOf(Route.SETTINGS)
         ),
     )
 
-data class ScreenGroup(
+data class RouteGroup(
     val title: String? = null,
     val enabled: Boolean = true,
-    val screens: Array<Screen>,
+    val routes: Array<Route>,
 )
 
-enum class Screen(val title: String, val iconRes: Int) {
+enum class Route(val title: String, val iconRes: Int) {
     PROJECTS(
         title = "Projects",
         iconRes = R.drawable.ic_projects_black_24dp

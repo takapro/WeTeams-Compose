@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.weteams.screen.common.CustomDialog
+import com.example.weteams.ui.common.CustomDialog
 
 @Composable
 fun SettingsContent() {

@@ -26,8 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weteams.screen.common.InputField
-import com.example.weteams.screen.common.PasswordField
+import com.example.weteams.ui.common.InputField
+import com.example.weteams.ui.common.PasswordField
 
 @Composable
 fun SignInForm(viewModel: SignInViewModel) {

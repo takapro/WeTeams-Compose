@@ -1,4 +1,4 @@
-package com.example.weteams.screen.common
+package com.example.weteams.ui.common
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme

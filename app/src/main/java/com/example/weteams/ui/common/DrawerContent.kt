@@ -1,4 +1,4 @@
-package com.example.weteams.screen.common
+package com.example.weteams.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,6 +32,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.example.weteams.R
+import com.example.weteams.screen.Route
+import com.example.weteams.screen.getRouteGroups
 import com.example.weteams.screen.main.MainViewModel
 import com.example.weteams.screen.projects.ProjectsViewModel
 import com.google.firebase.auth.FirebaseUser
@@ -57,17 +59,17 @@ fun DrawerContent(drawerState: DrawerState, navController: NavHostController) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            getScreenGroups(currentProject).forEachIndexed { index, screenGroup ->
-                DrawerGroup(isTop = index == 0, text = screenGroup.title)
-                for (screen in screenGroup.screens) {
+            getRouteGroups(currentProject).forEachIndexed { index, routeGroup ->
+                DrawerGroup(isTop = index == 0, text = routeGroup.title)
+                for (route in routeGroup.routes) {
                     DrawerItem(
-                        screen = screen,
-                        enabled = screenGroup.enabled,
-                        selected = false // TODO: screen == currentScreen
+                        route = route,
+                        enabled = routeGroup.enabled,
+                        selected = false // TODO: route == currentRoute
                     ) {
-                        navController.navigate(screen.toString())
+                        navController.navigate(route.toString())
                         projectsViewModel.currentProject.value =
-                            if (screen != Screen.SETTINGS) "My Great Project" else null
+                            if (route != Route.SETTINGS) "My Great Project" else null
                         coroutineScope.launch {
                             drawerState.close()
                         }
@@ -135,7 +137,7 @@ fun DrawerGroup(isTop: Boolean = false, text: String? = null) {
 }
 
 @Composable
-fun DrawerItem(screen: Screen, enabled: Boolean, selected: Boolean, onSelect: () -> Unit) {
+fun DrawerItem(route: Route, enabled: Boolean, selected: Boolean, onSelect: () -> Unit) {
     val color =
         if (selected) {
             MaterialTheme.colors.primary
@@ -160,14 +162,14 @@ fun DrawerItem(screen: Screen, enabled: Boolean, selected: Boolean, onSelect: ()
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(screen.iconRes),
+            painter = painterResource(route.iconRes),
             contentDescription = "",
             modifier = Modifier.padding(start = 8.dp, end = 16.dp),
             colorFilter = ColorFilter.tint(color)
         )
 
         Text(
-            text = screen.title,
+            text = route.title,
             color = color,
             fontWeight = FontWeight.Bold
         )

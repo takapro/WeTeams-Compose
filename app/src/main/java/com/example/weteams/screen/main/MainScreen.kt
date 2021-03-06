@@ -17,14 +17,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weteams.R
+import com.example.weteams.screen.Route
 import com.example.weteams.screen.chat.ChatContent
-import com.example.weteams.screen.common.DrawerContent
-import com.example.weteams.screen.common.Screen
 import com.example.weteams.screen.dashboard.DashboardContent
 import com.example.weteams.screen.files.FilesContent
 import com.example.weteams.screen.projects.ProjectsContent
 import com.example.weteams.screen.schedule.ScheduleContent
 import com.example.weteams.screen.settings.SettingsContent
+import com.example.weteams.ui.common.DrawerContent
 import kotlinx.coroutines.launch
 
 @Composable
@@ -33,12 +33,12 @@ fun MainScreen() {
     val scaffoldState = rememberScaffoldState()
 
     fun NavGraphBuilder.route(
-        screen: Screen,
+        route: Route,
         content: @Composable (NavBackStackEntry) -> Unit
     ) {
-        composable(screen.toString()) {
+        composable(route.toString()) {
             Column {
-                TopBar(scaffoldState.drawerState, screen.title)
+                TopBar(scaffoldState.drawerState, route.title)
                 content(it)
             }
         }
@@ -48,13 +48,13 @@ fun MainScreen() {
         scaffoldState = scaffoldState,
         drawerContent = { DrawerContent(scaffoldState.drawerState, navController) }
     ) {
-        NavHost(navController, startDestination = Screen.PROJECTS.toString()) {
-            route(Screen.PROJECTS) { ProjectsContent() }
-            route(Screen.DASHBOARD) { DashboardContent() }
-            route(Screen.SCHEDULE) { ScheduleContent() }
-            route(Screen.FILES) { FilesContent() }
-            route(Screen.CHAT) { ChatContent() }
-            route(Screen.SETTINGS) { SettingsContent() }
+        NavHost(navController, startDestination = Route.PROJECTS.toString()) {
+            route(Route.PROJECTS) { ProjectsContent() }
+            route(Route.DASHBOARD) { DashboardContent() }
+            route(Route.SCHEDULE) { ScheduleContent() }
+            route(Route.FILES) { FilesContent() }
+            route(Route.CHAT) { ChatContent() }
+            route(Route.SETTINGS) { SettingsContent() }
         }
     }
 }
