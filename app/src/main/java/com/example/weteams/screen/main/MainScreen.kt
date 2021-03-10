@@ -17,8 +17,6 @@ import com.example.weteams.screen.files.FilesContent
 import com.example.weteams.screen.projects.ProjectsContent
 import com.example.weteams.screen.schedule.ScheduleContent
 import com.example.weteams.screen.settings.SettingsContent
-import com.example.weteams.screen.settings.SettingsPasswordContent
-import com.example.weteams.screen.settings.SettingsUsernameContent
 import com.example.weteams.ui.common.DrawerContent
 import com.example.weteams.ui.common.PrimaryBar
 import com.example.weteams.ui.common.SecondaryBar
@@ -63,9 +61,7 @@ fun MainScreen() {
             route(Route.SCHEDULE) { ScheduleContent() }
             route(Route.FILES) { FilesContent() }
             route(Route.CHAT) { ChatContent() }
-            route(Route.SETTINGS) { SettingsContent(navController) }
-            subroute(SubRoute.SETTINGS_USERNAME) { SettingsUsernameContent(navController) }
-            subroute(SubRoute.SETTINGS_PASSWORD) { SettingsPasswordContent(navController) }
+            route(Route.SETTINGS) { SettingsContent() }
         }
     }
 }
