@@ -11,18 +11,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weteams.screen.Route
 import com.example.weteams.screen.SubRoute
-import com.example.weteams.screen.chat.ChatContent
-import com.example.weteams.screen.dashboard.DashboardContent
-import com.example.weteams.screen.files.FilesContent
-import com.example.weteams.screen.projects.ProjectsContent
-import com.example.weteams.screen.schedule.ScheduleContent
-import com.example.weteams.screen.settings.SettingsContent
+import com.example.weteams.screen.chat.ChatScreen
+import com.example.weteams.screen.dashboard.DashboardScreen
+import com.example.weteams.screen.files.FilesScreen
+import com.example.weteams.screen.projects.ProjectsScreen
+import com.example.weteams.screen.schedule.ScheduleScreen
+import com.example.weteams.screen.settings.SettingsScreen
 import com.example.weteams.ui.common.DrawerContent
 import com.example.weteams.ui.common.PrimaryBar
 import com.example.weteams.ui.common.SecondaryBar
 
 @Composable
-fun MainScreen() {
+fun MainRouter() {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
 
@@ -56,12 +56,12 @@ fun MainScreen() {
         drawerGesturesEnabled = false
     ) {
         NavHost(navController, startDestination = Route.PROJECTS.toString()) {
-            route(Route.PROJECTS) { ProjectsContent() }
-            route(Route.DASHBOARD) { DashboardContent() }
-            route(Route.SCHEDULE) { ScheduleContent() }
-            route(Route.FILES) { FilesContent() }
-            route(Route.CHAT) { ChatContent() }
-            route(Route.SETTINGS) { SettingsContent() }
+            route(Route.PROJECTS) { ProjectsScreen() }
+            route(Route.DASHBOARD) { DashboardScreen() }
+            route(Route.SCHEDULE) { ScheduleScreen() }
+            route(Route.FILES) { FilesScreen() }
+            route(Route.CHAT) { ChatScreen() }
+            route(Route.SETTINGS) { SettingsScreen() }
         }
     }
 }

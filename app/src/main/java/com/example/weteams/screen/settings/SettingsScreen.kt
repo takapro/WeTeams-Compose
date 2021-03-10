@@ -20,7 +20,7 @@ import com.example.weteams.ui.common.CustomDialog
 import com.example.weteams.ui.common.ProcessingLazyColumn
 
 @Composable
-fun SettingsContent() {
+fun SettingsScreen() {
     val settingsViewModel = viewModel<SettingsViewModel>()
     val email = settingsViewModel.email.observeAsState("no email")
     val username = settingsViewModel.username.observeAsState("unknown")

@@ -1,4 +1,4 @@
-package com.example.weteams.screen.schedule
+package com.example.weteams.screen.projects
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ScheduleContent() {
+fun ProjectsScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Schedule Content",
+            text = "Projects Content",
             fontSize = 24.sp
         )
     }

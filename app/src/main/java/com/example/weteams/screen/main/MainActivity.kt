@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             WeTeamsTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    MainScreen()
+                    MainRouter()
                 }
             }
         }
