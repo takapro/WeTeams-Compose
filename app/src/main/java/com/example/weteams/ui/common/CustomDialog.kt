@@ -11,6 +11,7 @@ fun CustomDialog(
     state: MutableState<Boolean>,
     title: String,
     onConfirm: () -> Unit,
+    enableConfirm: Boolean = true,
     content: @Composable () -> Unit
 ) {
     AlertDialog(
@@ -19,7 +20,11 @@ fun CustomDialog(
         text = content,
         confirmButton = {
             Button(
-                onClick = onConfirm
+                onClick = {
+                    onConfirm()
+                    state.value = false
+                },
+                enabled = enableConfirm
             ) {
                 Text("OK")
             }

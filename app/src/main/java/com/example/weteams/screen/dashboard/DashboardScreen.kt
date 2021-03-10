@@ -1,4 +1,4 @@
-package com.example.weteams.screen.files
+package com.example.weteams.screen.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun FilesContent() {
+fun DashboardScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Files Content",
+            text = "Dashboard Content",
             fontSize = 24.sp
         )
     }

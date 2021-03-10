@@ -1,4 +1,4 @@
-package com.example.weteams.screen.projects
+package com.example.weteams.screen.files
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ProjectsContent() {
+fun FilesScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Projects Content",
+            text = "Files Content",
             fontSize = 24.sp
         )
     }

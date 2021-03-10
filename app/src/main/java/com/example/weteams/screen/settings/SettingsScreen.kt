@@ -2,14 +2,13 @@ package com.example.weteams.screen.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -17,32 +16,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import com.example.weteams.screen.SubRoute
-import com.example.weteams.screen.navRoute
 import com.example.weteams.ui.common.CustomDialog
+import com.example.weteams.ui.common.ProcessingLazyColumn
 
 @Composable
-fun SettingsContent(navController: NavHostController) {
+fun SettingsScreen() {
     val settingsViewModel = viewModel<SettingsViewModel>()
-    val user = settingsViewModel.user
+    val email = settingsViewModel.email.observeAsState("no email")
+    val username = settingsViewModel.username.observeAsState("unknown")
+    val isProcessing = settingsViewModel.isProcessing.observeAsState(false)
 
+    val showUsernameDialog = remember { mutableStateOf(false) }
+    val showPasswordDialog = remember { mutableStateOf(false) }
     val showSignOutDialog = remember { mutableStateOf(false) }
 
     val itemList = arrayOf(
-        Pair(user?.email ?: "no email", null),
-        Pair("Change Username", { navController.navRoute(SubRoute.SETTINGS_USERNAME) }),
-        Pair("Change Password", { navController.navRoute(SubRoute.SETTINGS_PASSWORD) }),
+        Pair(email.value, null),
+        Pair("Change Username", { showUsernameDialog.value = true }),
+        Pair("Change Password", { showPasswordDialog.value = true }),
         Pair("Sign Out", { showSignOutDialog.value = true }),
     )
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    ProcessingLazyColumn(isProcessing) {
         item {
             Text(
-                text = user?.displayName ?: "unknown",
+                text = username.value,
                 modifier = Modifier.padding(vertical = 64.dp),
                 fontSize = 24.sp
             )
@@ -58,13 +56,20 @@ fun SettingsContent(navController: NavHostController) {
         }
     }
 
+    if (showUsernameDialog.value) {
+        SettingsUsernameDialog(showUsernameDialog, username.value)
+    }
+
+    if (showPasswordDialog.value) {
+        SettingsPasswordDialog(showPasswordDialog)
+    }
+
     if (showSignOutDialog.value) {
         CustomDialog(
             state = showSignOutDialog,
             title = "Sign Out",
             onConfirm = {
                 settingsViewModel.signOut()
-                showSignOutDialog.value = false
             }
         ) {
             Text("Do you want to sign out?")

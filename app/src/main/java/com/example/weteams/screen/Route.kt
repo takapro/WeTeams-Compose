@@ -61,6 +61,5 @@ enum class Route(val title: String, val iconRes: Int) {
 }
 
 enum class SubRoute(val title: String) {
-    SETTINGS_USERNAME(title = "Change Username"),
-    SETTINGS_PASSWORD(title = "Change Password");
+    // TODO
 }
