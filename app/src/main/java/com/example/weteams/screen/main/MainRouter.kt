@@ -5,6 +5,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -33,11 +35,15 @@ fun MainRouter() {
     val projectsViewModel = viewModel<ProjectsViewModel>()
     val currentProject = projectsViewModel.currentProject.observeAsState()
 
+    val currentRoute = remember { mutableStateOf<Route?>(null) }
+
     fun NavGraphBuilder.route(
         route: Route,
         content: @Composable (NavBackStackEntry) -> Unit
     ) {
         composable(route.toString()) {
+            currentRoute.value = route
+
             Column {
                 PrimaryBar(scaffoldState.drawerState, route.title)
                 content(it)
@@ -63,7 +69,8 @@ fun MainRouter() {
             DrawerContent(
                 drawerState = scaffoldState.drawerState,
                 navController = navController,
-                routeGroups = getRouteGroups(currentProject.value?.name)
+                routeGroups = getRouteGroups(currentProject.value?.name),
+                currentRoute = currentRoute.value
             )
         },
         drawerGesturesEnabled = false

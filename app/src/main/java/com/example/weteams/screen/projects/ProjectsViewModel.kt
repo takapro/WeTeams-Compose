@@ -7,7 +7,6 @@ import com.example.weteams.repository.FirestoreLiveData
 import com.example.weteams.repository.ProjectRepository
 import com.example.weteams.ui.common.ProcessingViewModel
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.delay
 
 class ProjectsViewModel : ProcessingViewModel() {
     private val user = FirebaseAuth.getInstance().currentUser
@@ -20,6 +19,9 @@ class ProjectsViewModel : ProcessingViewModel() {
 
     init {
         joinedProjects = ProjectRepository.projectList(user)
+        joinedProjects.observeForever { projects ->
+            _currentProject.value = projects.find { it.id == currentProject.value?.id }
+        }
     }
 
     override fun onCleared() {
@@ -34,10 +36,10 @@ class ProjectsViewModel : ProcessingViewModel() {
     }
 
     fun createProject(name: String, description: String) = process {
-        delay(3000) // TODO
+        ProjectRepository.createProject(user, name, description)
     }
 
     fun joinProject(project: Project) = process {
-        delay(3000) // TODO
+        ProjectRepository.joinProject(user, project)
     }
 }

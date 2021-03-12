@@ -40,7 +40,8 @@ import kotlinx.coroutines.launch
 fun DrawerContent(
     drawerState: DrawerState,
     navController: NavHostController,
-    routeGroups: Array<RouteGroup>
+    routeGroups: Array<RouteGroup>,
+    currentRoute: Route?
 ) {
     val mainViewModel = viewModel<MainViewModel>()
     val user = mainViewModel.user.value
@@ -63,7 +64,7 @@ fun DrawerContent(
                     DrawerItem(
                         route = route,
                         enabled = routeGroup.enabled,
-                        selected = false // TODO: route == currentRoute
+                        selected = route == currentRoute
                     ) {
                         navController.navRoute(route)
                         coroutineScope.launch {

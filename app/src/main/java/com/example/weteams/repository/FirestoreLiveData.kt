@@ -6,8 +6,8 @@ import com.google.firebase.firestore.Query
 
 class FirestoreLiveData<T>(
     val classT: Class<T>,
-    query: Query? = null) : LiveData<List<T>>(emptyList()
-) {
+    query: Query? = null
+) : LiveData<List<T>>(emptyList()) {
     private var listenerRegistration: ListenerRegistration? = null
 
     init {
