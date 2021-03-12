@@ -15,28 +15,32 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weteams.entity.Project
+import com.example.weteams.ui.common.ProcessingColumn
 
 @Composable
 fun ProjectsScreen(projectsViewModel: ProjectsViewModel) {
     val joinedProjects = projectsViewModel.joinedProjects.observeAsState(emptyList())
     val currentProject = projectsViewModel.currentProject.observeAsState()
+    val isProcessing = projectsViewModel.isProcessing.observeAsState(false)
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    val showCreateProjectDialog = remember { mutableStateOf(false) }
+    val showJoinProjectDialog = remember { mutableStateOf(false) }
+
+    ProcessingColumn(isProcessing) {
         Row(
             modifier = Modifier.padding(16.dp),
         ) {
             Button(
                 modifier = Modifier.weight(1.0f),
                 onClick = {
-                    // TODO
+                    showCreateProjectDialog.value = true
                 }
             ) { Text("Create Project") }
 
@@ -45,7 +49,7 @@ fun ProjectsScreen(projectsViewModel: ProjectsViewModel) {
             Button(
                 modifier = Modifier.weight(1.0f),
                 onClick = {
-                    // TODO
+                    showJoinProjectDialog.value = true
                 }
             ) { Text("Join Project") }
         }
@@ -76,6 +80,14 @@ fun ProjectsScreen(projectsViewModel: ProjectsViewModel) {
                 )
             }
         }
+    }
+
+    if (showCreateProjectDialog.value) {
+        CreateProjectDialog(showCreateProjectDialog, projectsViewModel)
+    }
+
+    if (showJoinProjectDialog.value) {
+        JoinProjectDialog(showJoinProjectDialog, projectsViewModel)
     }
 }
 

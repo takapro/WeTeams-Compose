@@ -9,14 +9,14 @@ import androidx.compose.runtime.MutableState
 @Composable
 fun CustomDialog(
     state: MutableState<Boolean>,
-    title: String,
+    title: String?,
     onConfirm: () -> Unit,
     enableConfirm: Boolean = true,
     content: @Composable () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = { state.value = false },
-        title = { Text(title) },
+        title = if (title != null) { { Text(title) } } else { null },
         text = content,
         confirmButton = {
             Button(
