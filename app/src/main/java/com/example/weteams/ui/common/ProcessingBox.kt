@@ -48,6 +48,7 @@ fun ProcessingBox(
 @Composable
 fun ProcessingColumn(
     isProcessing: State<Boolean>,
+    isScrollable: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
     ProcessingBox(isProcessing) {
@@ -55,7 +56,13 @@ fun ProcessingColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .verticalScroll(state = rememberScrollState()),
+                .let {
+                    if (isScrollable) {
+                        it.verticalScroll(state = rememberScrollState())
+                    } else {
+                        it
+                    }
+                },
             horizontalAlignment = Alignment.CenterHorizontally,
             content = content
         )

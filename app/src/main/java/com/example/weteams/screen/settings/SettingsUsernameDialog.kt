@@ -10,14 +10,14 @@ import com.example.weteams.ui.common.InputField
 
 @Composable
 fun SettingsUsernameDialog(
-    showUsernameDialog: MutableState<Boolean>,
+    dialogState: MutableState<Boolean>,
     initialUsername: String
 ) {
     val settingsViewModel = viewModel<SettingsViewModel>()
     val username = remember { mutableStateOf(initialUsername) }
 
     CustomDialog(
-        state = showUsernameDialog,
+        state = dialogState,
         title = "Change Username",
         onConfirm = {
             settingsViewModel.changeUsername(username.value)

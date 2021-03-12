@@ -25,8 +25,4 @@ class MainViewModel : ViewModel(), FirebaseAuth.AuthStateListener {
     override fun onAuthStateChanged(auth: FirebaseAuth) {
         _user.value = auth.currentUser
     }
-
-    fun signOut() {
-        FirebaseAuth.getInstance().signOut()
-    }
 }

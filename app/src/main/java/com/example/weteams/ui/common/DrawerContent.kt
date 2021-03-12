@@ -17,8 +17,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,23 +30,24 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.weteams.R
 import com.example.weteams.screen.Route
-import com.example.weteams.screen.getRouteGroups
+import com.example.weteams.screen.RouteGroup
 import com.example.weteams.screen.main.MainViewModel
 import com.example.weteams.screen.navRoute
-import com.example.weteams.screen.projects.ProjectsViewModel
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
 @Composable
-fun DrawerContent(drawerState: DrawerState, navController: NavHostController) {
+fun DrawerContent(
+    drawerState: DrawerState,
+    navController: NavHostController,
+    routeGroups: Array<RouteGroup>,
+    currentRoute: Route?
+) {
     val mainViewModel = viewModel<MainViewModel>()
     val user = mainViewModel.user.value
     if (user == null) {
         return
     }
-
-    val projectsViewModel = viewModel<ProjectsViewModel>()
-    val currentProject by projectsViewModel.currentProject.observeAsState()
 
     val coroutineScope = rememberCoroutineScope()
     Column(
@@ -59,17 +58,15 @@ fun DrawerContent(drawerState: DrawerState, navController: NavHostController) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            getRouteGroups(currentProject).forEachIndexed { index, routeGroup ->
+            routeGroups.forEachIndexed { index, routeGroup ->
                 DrawerGroup(isTop = index == 0, text = routeGroup.title)
                 for (route in routeGroup.routes) {
                     DrawerItem(
                         route = route,
                         enabled = routeGroup.enabled,
-                        selected = false // TODO: route == currentRoute
+                        selected = route == currentRoute
                     ) {
                         navController.navRoute(route)
-                        projectsViewModel.currentProject.value =
-                            if (route != Route.SETTINGS) "My Great Project" else null
                         coroutineScope.launch {
                             drawerState.close()
                         }
