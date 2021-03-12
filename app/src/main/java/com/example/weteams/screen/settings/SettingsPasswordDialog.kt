@@ -11,7 +11,7 @@ import com.example.weteams.ui.common.PasswordField
 
 @Composable
 fun SettingsPasswordDialog(
-    showPasswordDialog: MutableState<Boolean>
+    dialogState: MutableState<Boolean>
 ) {
     val settingsViewModel = viewModel<SettingsViewModel>()
     val currentPassword = rememberSaveable { mutableStateOf("") }
@@ -19,7 +19,7 @@ fun SettingsPasswordDialog(
     val confirmPassword = rememberSaveable { mutableStateOf("") }
 
     CustomDialog(
-        state = showPasswordDialog,
+        state = dialogState,
         title = "Change Password",
         onConfirm = {
             settingsViewModel.changePassword(

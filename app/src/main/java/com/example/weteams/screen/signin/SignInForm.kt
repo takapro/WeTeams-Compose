@@ -28,7 +28,7 @@ fun SignInForm(viewModel: SignInViewModel) {
     val confirmPassword = rememberSaveable { mutableStateOf("") }
     val isProcessing = viewModel.isProcessing.observeAsState(false)
 
-    ProcessingColumn(isProcessing) {
+    ProcessingColumn(isProcessing, isScrollable = true) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
