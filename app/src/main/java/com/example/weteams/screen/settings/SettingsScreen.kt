@@ -22,8 +22,8 @@ import com.example.weteams.ui.common.ProcessingLazyColumn
 @Composable
 fun SettingsScreen() {
     val settingsViewModel = viewModel<SettingsViewModel>()
-    val email = settingsViewModel.email.observeAsState("no email")
-    val username = settingsViewModel.username.observeAsState("unknown")
+    val email = settingsViewModel.email.observeAsState("")
+    val username = settingsViewModel.username.observeAsState("")
     val isProcessing = settingsViewModel.isProcessing.observeAsState(false)
 
     val showUsernameDialog = remember { mutableStateOf(false) }

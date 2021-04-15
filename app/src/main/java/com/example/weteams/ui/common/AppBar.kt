@@ -36,7 +36,6 @@ fun PrimaryBar(drawerState: DrawerState, title: String) {
 
 @Composable
 fun SecondaryBar(navController: NavHostController, title: String) {
-    val coroutineScope = rememberCoroutineScope()
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {

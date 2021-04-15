@@ -10,16 +10,16 @@ class SettingsViewModel : ProcessingViewModel() {
     private val authRepository = AuthRepository()
     private val user = FirebaseAuth.getInstance().currentUser
 
-    private val _email = MutableLiveData(user.email)
+    private val _email = MutableLiveData(user?.email ?: "no email")
     val email: LiveData<String>
         get() = _email
 
-    private val _username = MutableLiveData(user.displayName)
+    private val _username = MutableLiveData(user?.displayName ?: "unknown")
     val username: LiveData<String>
         get() = _username
 
     fun changeUsername(username: String) = process {
-        authRepository.updateDisplayName(user, user.email!!, username)
+        authRepository.updateDisplayName(user, user?.email!!, username)
         _username.value = user.displayName
     }
 

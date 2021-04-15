@@ -20,7 +20,7 @@ class AuthRepository {
         val result = auth.createUserWithEmailAndPassword(email, password).await()
 
         result.user?.also { user ->
-            updateDisplayName(user, email, password)
+            updateDisplayName(user, email, displayName)
         }
 
         return result != null
